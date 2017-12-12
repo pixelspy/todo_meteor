@@ -49,7 +49,8 @@ Template.body.events({
     text,
     createdAt: new Date(), // current time
     owner: Meteor.userId(),
-    username: Meteor.user().username,
+    username: Meteor.user().username || Meteor.user().profile.name,
+    // profile.name for the facebook profile name
   });
 
   // clear form
