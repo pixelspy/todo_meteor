@@ -10,16 +10,10 @@ import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
+  Meteor.subscribe('tasks');
 });
 
 Template.body.helpers({
-  // tasks:
-  // [
-  //   { text: 'This is task 1' },
-  //   { text: 'This is task 2' },
-  //   { text: 'This is task 3' },
-  // ],
-
   tasks() {
     const instance = Template.instance();
     if (instance.state.get('hideCompleted')) {
@@ -45,13 +39,7 @@ Template.body.events({
     console.log(event);
 
     // insert a task in the collection
-    Tasks.insert({
-    text,
-    createdAt: new Date(), // current time
-    owner: Meteor.userId(),
-    username: Meteor.user().username || Meteor.user().profile.name,
-    // profile.name for the facebook profile name
-  });
+    Meteor.call('tasks.insert', text);
 
   // clear form
   target.text.value = '';
